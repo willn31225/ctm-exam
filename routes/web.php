@@ -17,9 +17,19 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['middleware' => 'auth','prefix' => 'api'], function ($router)
+{
+    $router->get('me', 'AuthController@me');
+
     $router->get('/email-users', 'EmailUserController@index');
     $router->get('/email-users/{id}', 'EmailUserController@show');
     $router->post('/email-users', 'EmailUserController@create');
     $router->get('/email-users/{id}/opt-out', 'EmailUserController@optOut');
 });
+
+$router->group(['prefix' => 'api'], function () use ($router)
+{
+    $router->post('register', 'AuthController@register');
+    $router->post('login', 'AuthController@login');
+});
+
