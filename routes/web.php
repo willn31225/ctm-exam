@@ -16,3 +16,10 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/email-users', 'EmailUserController@index');
+    $router->get('/email-users/{id}', 'EmailUserController@show');
+    $router->post('/email-users', 'EmailUserController@create');
+    $router->get('/email-users/{id}/opt-out', 'EmailUserController@optOut');
+});
